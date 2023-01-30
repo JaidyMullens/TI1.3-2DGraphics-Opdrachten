@@ -20,6 +20,7 @@ public class Spiral extends Application {
     
     
     public void draw(FXGraphics2D graphics) {
+
     }
     
     
