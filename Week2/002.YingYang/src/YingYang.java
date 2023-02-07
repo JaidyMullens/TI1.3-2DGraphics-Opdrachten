@@ -28,11 +28,39 @@ public class YingYang extends Application {
     }
 
 
-    public void draw(FXGraphics2D graphics)
+    public void draw(FXGraphics2D g2d)
     {
-        graphics.setTransform(new AffineTransform());
-        graphics.setBackground(Color.white);
-        graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
+        Shape outerCircle = new Ellipse2D.Double(100, 100, 400, 400);
+        g2d.draw(outerCircle);
+
+        Shape topEye = new Ellipse2D.Double(275, 150, 50, 50);
+        Shape bottomEye = new Ellipse2D.Double(275, 380, 50, 50);
+
+        Area topEyeArea = new Area(topEye);
+        Area bottomEyeArea = new Area(bottomEye);
+
+        g2d.draw(topEyeArea);
+        g2d.draw(bottomEyeArea);
+
+
+
+        Area yingHead = new Area(new Ellipse2D.Double(200, 100, 200, 200));
+        Area yangHead = new Area(new Ellipse2D.Double(200, 300, 200, 200));
+        g2d.draw(yangHead);
+
+        Path2D yangPath = new Path2D.Double();
+//        yangPath.curveTo(300, 300, ,300, 300);
+
+        Area yang = new Area();
+
+
+
+
+//        Area yang = new Area(new Ellipse2D.Double(100, 100, 400, 400));
+//        yang.subtract(yingHead);
+//        g2d.fill(yang);
+
+
     }
 
 
