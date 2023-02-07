@@ -30,39 +30,31 @@ public class YingYang extends Application {
 
     public void draw(FXGraphics2D g2d)
     {
-        Shape outerCircle = new Ellipse2D.Double(100, 100, 400, 400);
+        g2d.setColor(Color.black);
+        Area outerCircle = new Area(new Ellipse2D.Double(100, 100, 400, 400));
         g2d.draw(outerCircle);
 
-        Shape topEye = new Ellipse2D.Double(275, 150, 50, 50);
-        Shape bottomEye = new Ellipse2D.Double(275, 380, 50, 50);
+        Area ying = new Area(new Ellipse2D.Double(200, 100, 200, 200));
+        Area yang = new Area(new Ellipse2D.Double(200, 300, 200, 200));
+        Area rectangle = new Area(new Rectangle2D.Double(300, 100,200,400));
+        rectangle.intersect(outerCircle);
+        rectangle.subtract(ying);
+        g2d.fill(rectangle);
+        g2d.draw(rectangle);
+        outerCircle.add(ying);
+        g2d.draw(yang);
+        g2d.fill(yang);
 
-        Area topEyeArea = new Area(topEye);
-        Area bottomEyeArea = new Area(bottomEye);
-
-        g2d.draw(topEyeArea);
-        g2d.draw(bottomEyeArea);
-
-
-
-        Area yingHead = new Area(new Ellipse2D.Double(200, 100, 200, 200));
-        Area yangHead = new Area(new Ellipse2D.Double(200, 300, 200, 200));
+        g2d.setColor(Color.white);
+        Area yangHead = new Area(new Ellipse2D.Double(275, 380, 50, 50));
+        g2d.fill(yangHead);
         g2d.draw(yangHead);
 
-        Path2D yangPath = new Path2D.Double();
-//        yangPath.curveTo(300, 300, ,300, 300);
-
-        Area yang = new Area();
-
-
-
-
-//        Area yang = new Area(new Ellipse2D.Double(100, 100, 400, 400));
-//        yang.subtract(yingHead);
-//        g2d.fill(yang);
-
+        g2d.setColor(Color.black);
+        Area yingHead = new Area(new Ellipse2D.Double(275, 175, 50, 50));
+        g2d.fill(yingHead);
 
     }
-
 
     public static void main(String[] args)
     {
