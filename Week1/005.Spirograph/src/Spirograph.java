@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.geom.*;
+
 import javafx.application.Application;
+
 import static javafx.application.Application.launch;
 
 import javafx.geometry.Insets;
@@ -19,9 +21,19 @@ public class Spirograph extends Application {
     private TextField v2;
     private TextField v3;
     private TextField v4;
+    private TextField colorTextfield;
     private Canvas canvas = new Canvas(1920, 1080);
     private Button b1 = new Button("Update");
     private Button btnClear = new Button("Clear Canvas");
+    private Button btnChangeColor = new Button("Change Color");
+    private Color blue = Color.blue;
+    private Color black = Color.black;
+    private Color red = Color.red;
+    private Color green = Color.green;
+    private Color pink = Color.pink;
+    private Color currentColor;
+
+    private boolean colorIsManual = false;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -32,7 +44,7 @@ public class Spirograph extends Application {
         mainBox.getChildren().addAll(topBar, bottomBar);
         mainBox.getChildren().add(new Group(canvas));
 
-        topBar.setPadding(new Insets(30,0,10, 0));
+        topBar.setPadding(new Insets(30, 0, 10, 0));
         topBar.getChildren().add(v1 = new TextField("300"));
         topBar.getChildren().add(v2 = new TextField("1"));
         topBar.getChildren().add(v3 = new TextField("300"));
@@ -40,6 +52,8 @@ public class Spirograph extends Application {
         topBar.getChildren().add(b1);
 
         bottomBar.getChildren().add(btnClear);
+        bottomBar.getChildren().add(colorTextfield = new TextField());
+        bottomBar.getChildren().add(btnChangeColor);
 
         primaryStage.setScene(new Scene(mainBox));
         primaryStage.setTitle("Spirograph");
@@ -51,15 +65,35 @@ public class Spirograph extends Application {
         });
 
         btnClear.setOnAction(event -> {
-
-            canvas.getGraphicsContext2D().clearRect(0, 0, this.canvas.getWidth() * 2, this.canvas.getHeight() * 2);
+            canvas.getGraphicsContext2D().clearRect(-this.canvas.getWidth(), -this.canvas.getHeight(), this.canvas.getWidth() * 2, this.canvas.getHeight() * 2);
         });
-    }
 
+        btnChangeColor.setOnAction(event -> {
+            colorIsManual = true;
+            switch (colorTextfield.selectedTextProperty().getValue()){
+                case "Blue":
+                    currentColor = blue;
+                    System.out.println("Blue");
+                    break;
+                case "Black":
+                    currentColor = black;
+                    break;
+                case"":
+                    currentColor = black;
+                    colorIsManual = false;
+            }
+        });
+
+    }
 
     float lastX = 0;
     float lastY = 0;
+
     public void draw(FXGraphics2D graphics) {
+
+        if (colorIsManual) {
+            graphics.setColor(currentColor);
+        }
 
         // x = a × cos(b × φ) + c × cos(d × φ)
         double a = Double.parseDouble(v1.getText());
@@ -68,10 +102,11 @@ public class Spirograph extends Application {
         double d = Double.parseDouble(v4.getText());
 
 
-        for (float i = 0; i < Math.PI * Math.PI; i+= 0.00001f) {
-            graphics.setColor(Color.getHSBColor(i/(float)Math.PI, 1, 1));
-            float x = (float)(a * Math.cos(b * i) + c * Math.cos(d * i));
-            float y = (float)(a * Math.sin(b * i) + c * Math.sin(d * i));
+        for (float i = 0; i < Math.PI * Math.PI; i += 0.00001f) {
+            if (!colorIsManual) graphics.setColor(Color.getHSBColor(i / (float) Math.PI, 1, 1));
+
+            float x = (float) (a * Math.cos(b * i) + c * Math.cos(d * i));
+            float y = (float) (a * Math.sin(b * i) + c * Math.sin(d * i));
 
             graphics.draw(new Line2D.Double(x, y, x, y));
 

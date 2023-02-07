@@ -28,11 +28,45 @@ public class Moon extends Application {
     }
 
 
-    public void draw(FXGraphics2D graphics)
+    public void draw(FXGraphics2D g2d)
     {
-        graphics.setTransform(new AffineTransform());
-        graphics.setBackground(Color.white);
-        graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
+        g2d.setTransform(new AffineTransform());
+        g2d.setBackground(Color.white);
+
+
+//        Shape rightSide = new QuadCurve2D.Double(100.0f, 100.0f,  500, 200, 100.0f, 400.0f);
+//        g2d.draw(rightSide);
+//
+//        Shape leftSide = new QuadCurve2D.Double(100.0f, 400.0f,  300, 200, 100.0f, 100.0f);
+//        g2d.draw(leftSide);
+
+        GeneralPath path = new GeneralPath();
+        path.moveTo(150, 100);
+        path.curveTo(350, 140,350, 360,150, 400);
+        path.moveTo(150, 400);
+        path.curveTo(250,350,250, 150,150, 100);
+//        path.closePath();
+        g2d.setColor(Color.black);
+        g2d.fill(path);
+        g2d.draw(path);
+
+//        GeneralPath path = new GeneralPath();
+//        path.moveTo(100.0f, 400.0f);
+
+
+//
+//        GeneralPath path = new GeneralPath();
+//        path.moveTo(100, 100);
+//        path.lineTo(200,100);
+//        path.lineTo(100,200);
+//        path.closePath();
+//
+//        g2d.setColor(Color.green);
+//        g2d.fill(path);
+//        g2d.setColor(Color.black);
+//        g2d.draw(path);
+
+        //graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
     }
 
 
