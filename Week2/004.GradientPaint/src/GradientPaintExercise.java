@@ -17,6 +17,8 @@ import org.jfree.fx.ResizableCanvas;
 
 public class GradientPaintExercise extends Application {
     private ResizableCanvas canvas;
+    private Point2D center = new Point2D.Double(0, 0);
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -27,7 +29,11 @@ public class GradientPaintExercise extends Application {
         primaryStage.setTitle("GradientPaint");
         primaryStage.show();
         draw(new FXGraphics2D(canvas.getGraphicsContext2D()));
-        MouseEvent mouseEvent = new MouseEvent(null, null, MouseEvent.MOUSE_MOVED, );
+
+        canvas.setOnMouseMoved(event -> {
+            center = new Point2D.Double(event.getX(), event.getY());
+            draw(new FXGraphics2D(canvas.getGraphicsContext2D()));
+        });
 
     }
 
@@ -35,13 +41,12 @@ public class GradientPaintExercise extends Application {
     public void draw(FXGraphics2D graphics)
     {
 //        graphics.setTransform(new AffineTransform());
+//        center = new Point2D.Double();
+        float radius = 1000f;
+        float[] fractions = {0.1f,0.5f,0.9f};
+        Color[] colors = {Color.red, Color.yellow, Color.pink};
 
-        Point2D center = new Point2D.Double((double)canvas.getWidth() / 2, (double)canvas.getHeight() / 2);
-        float radius = (float)canvas.getWidth() / 2.0f;
-        float[] focus = {0.1f, 0.9f};
-        Color[] colors = {Color.red, Color.yellow};
-
-        RadialGradientPaint radialGradientPaint = new RadialGradientPaint(center, radius, focus, colors);
+        RadialGradientPaint radialGradientPaint = new RadialGradientPaint(center, radius, center, fractions, colors, MultipleGradientPaint.CycleMethod.NO_CYCLE);
 
 //        RadialGradientPaint radialGradientPaint = new RadialGradientPaint(new Point2D.Double((double)canvas.getWidth() / 2, (double)canvas.getHeight() / 2),
 //                30, 40, new float[2], new Color[2], MultipleGradientPaint.CycleMethod.NO_CYCLE);
