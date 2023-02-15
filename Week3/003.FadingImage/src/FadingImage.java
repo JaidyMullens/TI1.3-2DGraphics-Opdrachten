@@ -60,7 +60,7 @@ public class FadingImage extends Application {
         AffineTransform transpartentImg = new AffineTransform();
         AffineTransform backgroundImg = new AffineTransform();
 //        transpartentImg.translate(transpartentImg.getTranslateX() + 500, transpartentImg.getTranslateY());
-
+        graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
         graphics.drawImage(imgTheCow, backgroundImg,null);
 
 
@@ -78,15 +78,17 @@ public class FadingImage extends Application {
         if (!bufferIsOn) {
             transparency += fadeSpeed;
 
-            if (transparency > 0.95f) {
+            if (transparency > 1) {
                 bufferIsOn = true;
                 fadeSpeed *= -1;
+                transparency = 1;
             }
 
-            if (transparency <= 0f)
+            if (transparency < 0.0f)
             {
+                transparency = 0;
                 System.out.println(transparency);
-                System.out.println("The rock is only visible");
+                System.out.println("The cow is only visible");
                 fadeSpeed *= -1;
                 bufferIsOn = true;
             }
