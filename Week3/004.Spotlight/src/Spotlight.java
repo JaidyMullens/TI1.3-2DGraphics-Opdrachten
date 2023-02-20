@@ -68,12 +68,10 @@ public class Spotlight extends Application {
 
         Random r = new Random();
         for (int i = 0; i < 1000; i++) {
-            int ranNumFirst = r.nextInt(100000 - 1) + 1;
-            int ranNumSecond = r.nextInt(100000 - 1) + 1;
-            graphics.setPaint(Color.getHSBColor(r.nextFloat(), 1, 1));
-            graphics.drawLine(ranNumFirst % (int) canvas.getWidth(), ranNumFirst % (int) canvas.getHeight(), ranNumSecond % (int) canvas.getWidth(), ranNumSecond % (int) canvas.getHeight());
-        }
 
+            graphics.setPaint(Color.getHSBColor(r.nextFloat(), 1, 1));
+            graphics.drawLine((int)(Math.random() * 1920), (int)(Math.random() * 1080), (int)(Math.random() * 1920), (int)(Math.random() * 1080));
+        }
         graphics.setClip(null);
     }
 
