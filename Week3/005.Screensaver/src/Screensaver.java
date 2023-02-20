@@ -3,7 +3,9 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
+import com.sun.scenario.effect.LinearConvolveCoreEffect;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 
@@ -29,6 +31,7 @@ public class Screensaver extends Application {
 
     private ArrayList<Line> lines = new ArrayList<>();
     private ArrayList<Line> previousLines = new ArrayList<>();
+    private Color lineColor;
 
     @Override
     public void start(Stage stage) throws Exception
@@ -55,22 +58,37 @@ public class Screensaver extends Application {
         stage.setScene(new Scene(mainPane));
         stage.setTitle("Screensaver");
         stage.show();
+        g2d.setColor(Color.cyan);
         draw(g2d);
+
+
+        canvas.setOnMouseClicked(e ->{
+            Random random = new Random();
+            double ranVal = 1 + random.nextDouble() * (360 - 1);
+            Color ranColor = Color.getHSBColor((float)ranVal, 1, 1);
+            g2d.setBackground(ranColor);
+            lineColor = getComplementary(ranColor);
+        });
     }
 
+    public static Color getComplementary(Color color) {
+        return new Color(255 - color.getRed(), 255 - color.getGreen(),
+                255 - color.getBlue());
+    }
 
     public void draw(FXGraphics2D graphics)
     {
         graphics.setTransform(new AffineTransform());
-        graphics.setBackground(Color.black);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
-        graphics.setColor(Color.yellow);
+        graphics.setColor(lineColor);
 
         for (Line line : lines) {
+
             line.draw(graphics);
         }
 
         for (Line previousLine : previousLines) {
+
             previousLine.draw(graphics);
         }
 
@@ -134,8 +152,7 @@ public class Screensaver extends Application {
         previousLines.add(new Line(line_4.getStartX(), line_4.getStartY(), line_4.getEndX(), line_4.getEndY(),
                 line_4.xStartDirection, line_4.yStartDirection, line_4.xEndDirection, line_4.yEndDirection, lineVelocity));
 
-
-        if (previousLines.size() > 300) {
+        if (previousLines.size() > 350) {
             for (int i = 0; i < 4; i++) {
                 previousLines.remove(i);
             }
