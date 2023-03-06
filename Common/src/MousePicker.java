@@ -26,11 +26,11 @@ public class MousePicker {
     private MotorJoint joint;
 
     public MousePicker(Node node) {
-        EventHandler<? super MouseEvent> oldMouseClicked = node.getOnMouseClicked();
+        EventHandler<? super MouseEvent> oldMouseClicked = node.getOnMousePressed();
         EventHandler<? super MouseEvent> oldMouseReleased = node.getOnMouseReleased();
         EventHandler<? super MouseEvent> oldMouseDragged = node.getOnMouseDragged();
 
-        node.setOnMouseClicked(e -> {
+        node.setOnMousePressed(e -> {
             if (oldMouseClicked != null) {
                 oldMouseClicked.handle(e);
             }
@@ -40,9 +40,11 @@ public class MousePicker {
         });
 
         node.setOnMouseReleased(e -> {
+//            System.out.println("Mouse released");
             if (oldMouseReleased != null) {
                 oldMouseReleased.handle(e);
             }
+            System.out.println("Hij komt hier wel!");
             this.mousePos = null;
         });
 
@@ -56,6 +58,7 @@ public class MousePicker {
     }
 
     public void update(World world, AffineTransform transform, double scale) {
+//        System.out.println(mousePos);
         if (mousePos == null) {
             if (body != null) {
                 world.removeBody(body);
@@ -88,6 +91,7 @@ public class MousePicker {
                         results);
 
                 if (detect) {
+                    System.out.println("Body detected and will be added!");
                     Body target = results.get(0).getBody();
 
                     target.setAutoSleepingEnabled(false);
@@ -113,6 +117,10 @@ public class MousePicker {
         } catch (NoninvertibleTransformException e) {
             e.printStackTrace();
         }
+    }
+
+    public Body getBody(){
+        return this.body;
     }
 
 }
