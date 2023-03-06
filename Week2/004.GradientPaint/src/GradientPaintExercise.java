@@ -31,7 +31,7 @@ public class GradientPaintExercise extends Application {
         draw(new FXGraphics2D(canvas.getGraphicsContext2D()));
 
         canvas.setOnMouseMoved(event -> {
-            center = new Point2D.Double(event.getX(), event.getY());
+            center = new Point2D.Double(event.getX() / 2, event.getY() / 2);
             draw(new FXGraphics2D(canvas.getGraphicsContext2D()));
         });
 
