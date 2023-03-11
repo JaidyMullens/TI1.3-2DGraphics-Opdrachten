@@ -27,7 +27,7 @@ public class Screensaver extends Application {
     private Line line_2;
     private Line line_3;
     private Line line_4;
-    private static double lineVelocity = 2;
+    private static double lineVelocity = 4;
 
     private ArrayList<Line> lines = new ArrayList<>();
     private ArrayList<Line> previousLines = new ArrayList<>();

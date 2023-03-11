@@ -20,17 +20,16 @@ import java.util.List;
  */
 public class MousePicker {
 
-    private Point2D mousePos = null;
-
+    public Point2D mousePos = null;
     private Body body;
     private MotorJoint joint;
 
     public MousePicker(Node node) {
-        EventHandler<? super MouseEvent> oldMouseClicked = node.getOnMouseClicked();
+        EventHandler<? super MouseEvent> oldMouseClicked = node.getOnMousePressed();
         EventHandler<? super MouseEvent> oldMouseReleased = node.getOnMouseReleased();
         EventHandler<? super MouseEvent> oldMouseDragged = node.getOnMouseDragged();
 
-        node.setOnMouseClicked(e -> {
+        node.setOnMousePressed(e -> {
             if (oldMouseClicked != null) {
                 oldMouseClicked.handle(e);
             }
@@ -40,9 +39,11 @@ public class MousePicker {
         });
 
         node.setOnMouseReleased(e -> {
+
             if (oldMouseReleased != null) {
                 oldMouseReleased.handle(e);
             }
+
             this.mousePos = null;
         });
 
@@ -56,6 +57,7 @@ public class MousePicker {
     }
 
     public void update(World world, AffineTransform transform, double scale) {
+
         if (mousePos == null) {
             if (body != null) {
                 world.removeBody(body);
@@ -88,6 +90,7 @@ public class MousePicker {
                         results);
 
                 if (detect) {
+
                     Body target = results.get(0).getBody();
 
                     target.setAutoSleepingEnabled(false);
@@ -113,6 +116,10 @@ public class MousePicker {
         } catch (NoninvertibleTransformException e) {
             e.printStackTrace();
         }
+    }
+
+    public Body getBody(){
+        return this.body;
     }
 
 }
