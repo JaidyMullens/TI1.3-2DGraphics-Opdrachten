@@ -25,7 +25,6 @@ import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
-
 import javax.imageio.ImageIO;
 
 public class AngryBirds extends Application {
@@ -103,7 +102,6 @@ public class AngryBirds extends Application {
         draw(g2d);
 
 
-
     }
 
     public void init() {
@@ -136,7 +134,6 @@ public class AngryBirds extends Application {
         catapult.setMass(MassType.INFINITE);
         world.addBody(catapult);
 
-
         catapultJoint = new PinJoint(ball, catapult.getTransform().getTranslation(), 10, 0, 200);
         catapultJoint.setTarget(this.catapult.getTransform().getTranslation());
         catapultJoint.setCollisionAllowed(false);
@@ -163,7 +160,9 @@ public class AngryBirds extends Application {
 
     public void draw(FXGraphics2D graphics) {
         graphics.setTransform(new AffineTransform());
+
         graphics.clearRect(0,0, 1920, 1080);
+        graphics.setBackground(Color.getHSBColor(360/78f, 0.44f, 1f));
         graphics.setColor(Color.white);
 
         graphics.setTransform(camera.getTransform((int)canvas.getWidth(), (int)canvas.getHeight()));
@@ -176,7 +175,7 @@ public class AngryBirds extends Application {
         imageTransform.scale(4, 4);
         imageTransform.translate(-700, -600);
         graphics.drawImage(background,  imageTransform, null);
-        graphics.setBackground(Color.getHSBColor(213, 44, 100));
+
 
         if (!cataPultReleased)
         {
@@ -186,8 +185,6 @@ public class AngryBirds extends Application {
                     graphics.drawLine((int)mousePicker.getBody().getWorldCenter().x * 100, (int)mousePicker.getBody().getWorldCenter().y * 100, (int)catapult.getTransform().getTranslation().x * 100, (int)catapult.getTransform().getTranslation().y * 100);
 //                }
             }
-
-
         }
 
 //        DebugDraw.draw(graphics, world, 100);
@@ -215,20 +212,18 @@ public class AngryBirds extends Application {
         if (cataPultReleased) {
 
             Vector2 ballToJoint = catapultJoint.getAnchor1().subtract(mousePicker.getBody().getTransform().getTranslation());
-//            Vector2 ballToJoin = new Vectore
+
             double distance = ballToJoint.getMagnitude();
             double magnitude = Math.max(100, Math.min(distance * 10, 10000));
-//            System.out.println(ball.applyForce(ballToJoint.multiply(magnitude)));
+
             world.removeJoint(catapultJoint);
             ball.applyImpulse(-0.002);
             ball.applyForce(ballToJoint.multiply(magnitude));
             mousePicker.mousePos = null;
             cataPultReleased = false;
-//            cataPultReleased = false;
         }
         mousePicker.update(world, camera.getTransform((int) canvas.getWidth(), (int) canvas.getHeight()), 100);
         world.update(deltaTime);
-
         totalFrameTime -= 1/60.0;
     }
 
@@ -242,8 +237,6 @@ public class AngryBirds extends Application {
 
     public void releaseCatapult(){
         cataPultReleased = true;
-        System.out.println("We komen hier");
-
     }
 
     public static void main(String[] args) {

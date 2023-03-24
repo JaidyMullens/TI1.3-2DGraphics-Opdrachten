@@ -10,6 +10,7 @@ public class PositionConstraint implements Constraint {
         this.particle = particle;
         if (particle != null) {
             fixedPosition = particle.getPosition();
+            this.particle.isFixedParticle = true;
         }
     }
 

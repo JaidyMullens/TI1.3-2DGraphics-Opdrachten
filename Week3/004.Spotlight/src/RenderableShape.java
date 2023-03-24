@@ -29,6 +29,7 @@ public class RenderableShape {
 
     public Shape getTransformedShape()
     {
+        shape = new Sh
         return getTransform().createTransformedShape(shape);
     }
 

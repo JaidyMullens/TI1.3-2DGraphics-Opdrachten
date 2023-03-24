@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 
 public class Particle {
 
+    public boolean isFixedParticle = false;
     private Point2D position;
     private Point2D lastPosition;
     private double size;
@@ -42,7 +43,14 @@ public class Particle {
 
     public void draw(FXGraphics2D g2d) {
         Shape shape = new Ellipse2D.Double(position.getX() - size / 2, position.getY() - size / 2, size, size);
-        g2d.setColor(Color.pink);
+        if (!this.isFixedParticle)
+        {
+            g2d.setColor(Color.pink);
+        }
+        else{
+            g2d.setColor(Color.blue);
+        }
+
         g2d.fill(shape);
         g2d.setColor(Color.black);
         g2d.draw(shape);
